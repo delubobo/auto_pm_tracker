@@ -1,0 +1,5 @@
+id,task_name,status,duration_days,dependency_id,planned_value,actual_cost
+1,Site Grading,Completed,5,,5000.0,5200.0
+2,Foundation Pour,In Progress,3,1.0,10000.0,11000.0
+3,Framing,Pending,14,2.0,25000.0,0.0
+4,Roofing,Pending,7,3.0,15000.0,0.0
