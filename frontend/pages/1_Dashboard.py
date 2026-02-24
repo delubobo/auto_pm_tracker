@@ -2,7 +2,7 @@
 1_Dashboard.py — KPI summary cards, health banner, and critical path overview.
 
 Data sources:
-  GET /api/financials/evm       → EVMResponse
+  GET /api/financials/evm         → EVMResponse
   GET /api/schedule/critical-path → CriticalPathResponse
 """
 import sys
@@ -14,8 +14,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import api_client
 
-st.set_page_config(page_title="Dashboard | PM Tracker", page_icon="📊", layout="wide")
-st.title("📊 Project Dashboard")
+st.set_page_config(
+    page_title="Dashboard | PM Tracker",
+    page_icon=":material/dashboard:",
+    layout="wide",
+)
+st.title(":material/dashboard: Project Dashboard")
 
 
 @st.cache_data(ttl=30)
@@ -37,22 +41,23 @@ health = evm["health_status"]
 narrative = evm["narrative"]
 
 if health == "GREEN":
-    st.success(f"🟢 **{health}** — {narrative}")
+    st.success(f"**{health}** — {narrative}")
 elif health == "YELLOW":
-    st.warning(f"🟡 **{health}** — {narrative}")
+    st.warning(f"**{health}** — {narrative}")
 else:
-    st.error(f"🔴 **{health}** — {narrative}")
+    st.error(f"**{health}** — {narrative}")
 
 st.divider()
 
-# --- Financial KPIs ---
-st.subheader("Financial Metrics")
+# --- Financial KPIs: Row 1 ---
+st.subheader(":material/payments: Financial Metrics")
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Budget at Completion (BAC)", f"${evm['BAC']:,.0f}")
 col2.metric("Earned Value (EV)", f"${evm['EV']:,.0f}")
 col3.metric("Planned Value (PV)", f"${evm['PV']:,.0f}")
 col4.metric("Actual Cost (AC)", f"${evm['AC']:,.0f}")
 
+# --- Financial KPIs: Row 2 ---
 col5, col6, col7, col8 = st.columns(4)
 col5.metric(
     "CPI (Cost Perf. Index)",
@@ -81,7 +86,7 @@ col8.metric(
 
 st.divider()
 
-# --- EAC vs BAC ---
+# --- EAC vs BAC + Critical Path count side-by-side ---
 col_a, col_b = st.columns(2)
 with col_a:
     eac_delta = evm["EAC"] - evm["BAC"]
@@ -105,14 +110,14 @@ with col_b:
 st.divider()
 
 # --- Critical Path Summary ---
-st.subheader("Critical Path")
+st.subheader(":material/route: Critical Path")
 if cpm["critical_path_tasks"]:
-    st.markdown("**Tasks with zero float (any delay = project delay):**")
+    st.markdown("**Tasks with zero float — any delay extends the project end date:**")
     st.markdown(" → ".join([f"`{t}`" for t in cpm["critical_path_tasks"]]))
 else:
     st.info("No critical path data available. Run `pm-tracker init` first.")
 
-# --- Float Summary ---
+# --- Float Detail Table ---
 with st.expander("View all task floats"):
     import pandas as pd
     float_df = pd.DataFrame(

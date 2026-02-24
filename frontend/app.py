@@ -7,7 +7,6 @@ Run from project root:
 import sys
 from pathlib import Path
 
-# Ensure frontend/ is on sys.path so all pages can `import api_client`
 sys.path.insert(0, str(Path(__file__).parent))
 
 import streamlit as st
@@ -16,12 +15,12 @@ import api_client
 
 st.set_page_config(
     page_title="PM Tracker",
-    page_icon="🏗️",
+    page_icon=":material/construction:",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-st.title("🏗️ Construction Project Manager")
+st.title(":material/construction: Construction Project Manager")
 st.markdown(
     """
     Welcome to the **auto_pm_tracker** web dashboard — a full-stack project management tool
@@ -44,19 +43,19 @@ st.divider()
 col1, col2 = st.columns([1, 3])
 
 with col1:
-    st.subheader("API Status")
+    st.subheader(":material/sensors: API Status")
     try:
         health = api_client.get_health()
-        st.success(f"✅ Connected  \nv{health.get('version', 'unknown')}")
+        st.success(f"Connected — v{health.get('version', 'unknown')}")
     except Exception as e:
-        st.error(f"❌ API offline  \n`{e}`")
+        st.error(f"API offline  \n`{e}`")
         st.info(
             "Start the backend:\n"
             "```bash\nuvicorn src.api.app:app --reload --port 8001\n```"
         )
 
 with col2:
-    st.subheader("Quick Start")
+    st.subheader(":material/terminal: Quick Start")
     st.code(
         "# Terminal 1 — start API\n"
         "uvicorn src.api.app:app --reload --port 8001\n\n"

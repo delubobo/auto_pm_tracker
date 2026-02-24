@@ -22,8 +22,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import api_client
 
-st.set_page_config(page_title="Schedule | PM Tracker", page_icon="📅", layout="wide")
-st.title("📅 Project Schedule — Gantt Chart")
+st.set_page_config(
+    page_title="Schedule | PM Tracker",
+    page_icon=":material/calendar_month:",
+    layout="wide",
+)
+st.title(":material/calendar_month: Project Schedule — Gantt Chart")
 
 # --- Project start date anchor ---
 col_date, _ = st.columns([2, 6])
@@ -52,7 +56,6 @@ if not tasks:
 rows = []
 for t in tasks:
     start_dt = project_start + timedelta(days=t["es"])
-    # Plotly timeline x_end is exclusive, so add 1 day so finish day is visible
     end_dt = project_start + timedelta(days=t["ef"])
     rows.append(
         {
@@ -71,7 +74,6 @@ for t in tasks:
     )
 
 df = pd.DataFrame(rows)
-# Sort by ES then name for consistent ordering
 df = df.sort_values(["ES", "Task"])
 
 # --- Gantt Chart ---

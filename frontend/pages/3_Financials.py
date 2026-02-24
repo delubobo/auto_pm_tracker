@@ -15,8 +15,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import api_client
 
-st.set_page_config(page_title="Financials | PM Tracker", page_icon="💰", layout="wide")
-st.title("💰 Financials — Earned Value Management")
+st.set_page_config(
+    page_title="Financials | PM Tracker",
+    page_icon=":material/attach_money:",
+    layout="wide",
+)
+st.title(":material/attach_money: Financials — Earned Value Management")
 
 
 @st.cache_data(ttl=30)
@@ -28,17 +32,17 @@ try:
     evm = load_evm()
 except Exception as e:
     st.error(f"Failed to load EVM data: {e}")
-    st.info("Ensure the FastAPI backend is running: `uvicorn src.api.app:app --reload --port 8000`")
+    st.info("Ensure the FastAPI backend is running: `uvicorn src.api.app:app --reload --port 8001`")
     st.stop()
 
 # --- Health Banner ---
 health = evm["health_status"]
 if health == "GREEN":
-    st.success(f"🟢 **{health}** — {evm['narrative']}")
+    st.success(f"**{health}** — {evm['narrative']}")
 elif health == "YELLOW":
-    st.warning(f"🟡 **{health}** — {evm['narrative']}")
+    st.warning(f"**{health}** — {evm['narrative']}")
 else:
-    st.error(f"🔴 **{health}** — {evm['narrative']}")
+    st.error(f"**{health}** — {evm['narrative']}")
 
 st.divider()
 
@@ -46,11 +50,11 @@ st.divider()
 def _gauge(value: float, title: str, max_val: float = 2.0) -> go.Figure:
     """Render a Plotly gauge indicator for a performance index."""
     if value >= 1.0:
-        bar_color = "#22c55e"  # green
+        bar_color = "#22c55e"
     elif value >= 0.9:
-        bar_color = "#f59e0b"  # amber
+        bar_color = "#f59e0b"
     else:
-        bar_color = "#ef4444"  # red
+        bar_color = "#ef4444"
 
     fig = go.Figure(
         go.Indicator(
@@ -80,22 +84,22 @@ def _gauge(value: float, title: str, max_val: float = 2.0) -> go.Figure:
     return fig
 
 
-# --- Gauge Row ---
-st.subheader("Performance Indices")
+# --- Gauge Row: CPI and SPI side-by-side ---
+st.subheader(":material/speed: Performance Indices")
 col1, col2 = st.columns(2)
 
 with col1:
     st.plotly_chart(_gauge(evm["CPI"], "Cost Performance Index (CPI)"), use_container_width=True)
-    st.caption("CPI ≥ 1.0: Under budget ✅ | 0.9–1.0: Watch ⚠️ | < 0.9: Over budget 🔴")
+    st.caption("CPI >= 1.0: Under budget  |  0.9–1.0: Watch  |  < 0.9: Over budget")
 
 with col2:
     st.plotly_chart(_gauge(evm["SPI"], "Schedule Performance Index (SPI)"), use_container_width=True)
-    st.caption("SPI ≥ 1.0: Ahead of schedule ✅ | 0.9–1.0: Watch ⚠️ | < 0.9: Behind schedule 🔴")
+    st.caption("SPI >= 1.0: Ahead of schedule  |  0.9–1.0: Watch  |  < 0.9: Behind schedule")
 
 st.divider()
 
 # --- EAC vs BAC Grouped Bar ---
-st.subheader("Budget & Cost Comparison")
+st.subheader(":material/bar_chart: Budget & Cost Comparison")
 
 fig_bar = go.Figure(
     data=[
@@ -157,8 +161,8 @@ st.plotly_chart(fig_bar, use_container_width=True)
 
 st.divider()
 
-# --- Metrics Table ---
-st.subheader("EVM Metrics Summary")
+# --- Metrics Summary: 4-column grid ---
+st.subheader(":material/table_chart: EVM Metrics Summary")
 col_a, col_b, col_c, col_d = st.columns(4)
 col_a.metric("BAC", f"${evm['BAC']:,.2f}")
 col_b.metric(

@@ -2,10 +2,10 @@
 4_Tasks.py — Interactive task CRUD via st.data_editor.
 
 Data source:
-  GET    /api/tasks            → list[TaskResponse]
-  POST   /api/tasks            → TaskResponse (create)
-  PATCH  /api/tasks/{id}       → TaskResponse (update)
-  DELETE /api/tasks/{id}       → 204 (delete)
+  GET    /api/tasks        → list[TaskResponse]
+  POST   /api/tasks        → TaskResponse (create)
+  PATCH  /api/tasks/{id}   → TaskResponse (update)
+  DELETE /api/tasks/{id}   → 204 (delete)
 
 Workflow:
   1. Load tasks from API into a DataFrame.
@@ -23,8 +23,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import api_client
 
-st.set_page_config(page_title="Tasks | PM Tracker", page_icon="✅", layout="wide")
-st.title("✅ Task Management")
+st.set_page_config(
+    page_title="Tasks | PM Tracker",
+    page_icon=":material/task_alt:",
+    layout="wide",
+)
+st.title(":material/task_alt: Task Management")
 st.caption(
     "Edit tasks inline below. Click **Save Changes** to persist edits to the database, "
     "or **Refresh** to reload current data."
@@ -52,7 +56,7 @@ if "tasks_df" not in st.session_state:
 # --- Toolbar ---
 col_refresh, col_seed, _ = st.columns([1, 1, 6])
 with col_refresh:
-    if st.button("🔄 Refresh"):
+    if st.button("Refresh", icon=":material/refresh:"):
         try:
             st.session_state["tasks_df"] = _load_tasks()
             st.rerun()
@@ -60,7 +64,7 @@ with col_refresh:
             st.error(f"Refresh failed: {e}")
 
 with col_seed:
-    if st.button("🌱 Seed Demo"):
+    if st.button("Seed Demo", icon=":material/database:"):
         try:
             result = api_client.seed_demo()
             st.success(result.get("message", "Demo data seeded."))
@@ -89,10 +93,10 @@ edited_df = st.data_editor(
             "Dependency ID", min_value=1, step=1, width="small"
         ),
         "planned_value": st.column_config.NumberColumn(
-            "Planned Value ($)", format="$%.2f", min_value=0.0
+            "Planned Value", format="$%.2f", min_value=0.0
         ),
         "actual_cost": st.column_config.NumberColumn(
-            "Actual Cost ($)", format="$%.2f", min_value=0.0
+            "Actual Cost", format="$%.2f", min_value=0.0
         ),
     },
     use_container_width=True,
@@ -104,7 +108,7 @@ edited_df = st.data_editor(
 st.divider()
 
 # --- Save Changes ---
-if st.button("💾 Save Changes", type="primary"):
+if st.button("Save Changes", icon=":material/save:", type="primary"):
     errors: list[str] = []
     saved = 0
 
@@ -195,7 +199,7 @@ if st.button("💾 Save Changes", type="primary"):
             st.error(err)
     else:
         if saved:
-            st.success(f"✅ Saved {saved} change(s) successfully.")
+            st.success(f"Saved {saved} change(s) successfully.")
         else:
             st.info("No changes detected.")
 
