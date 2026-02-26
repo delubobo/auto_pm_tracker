@@ -1,0 +1,22 @@
+# Dockerfile.backend — FastAPI + FastMCP server
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy only the files needed to install and run the backend
+COPY pyproject.toml .
+COPY alembic.ini .
+COPY src/ ./src/
+COPY migrations/ ./migrations/
+
+# Install the package with API extras (fastapi, sqlalchemy, alembic, pydantic)
+RUN pip install --no-cache-dir -e ".[api]"
+
+# Ensure the data directory exists as a mount point for the SQLite volume
+RUN mkdir -p /app/data
+
+EXPOSE 8000
+
+# 1. Run Alembic migrations (idempotent — safe on every startup)
+# 2. Start uvicorn (no --reload in production container)
+CMD ["sh", "-c", "alembic upgrade head && uvicorn src.api.app:app --host 0.0.0.0 --port 8000"]

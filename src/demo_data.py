@@ -52,7 +52,6 @@ def seed_demo_data() -> None:
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM tasks")
-        cursor.execute("DELETE FROM sqlite_sequence WHERE name='tasks'")
         cursor.executemany(
             """
             INSERT INTO tasks

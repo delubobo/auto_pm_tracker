@@ -1,0 +1,43 @@
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8001:8000"
+    volumes:
+      # Named volume for SQLite WAL persistence (.db, .db-shm, .db-wal all land here)
+      - pm_data:/app/data
+    environment:
+      # Absolute paths are required inside the container
+      - DATABASE_URL=sqlite:////app/data/project_schedule.db
+      - DB_PATH=/app/data/project_schedule.db
+      # Enable the POST /api/admin/seed-demo endpoint
+      - DEMO_MODE=true
+    healthcheck:
+      # Uses Python's stdlib so no curl/wget required in the slim image
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8501:8501"
+    environment:
+      # Point the httpx client at the backend service name, not localhost
+      - API_BASE_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pm_data:
+    driver: local

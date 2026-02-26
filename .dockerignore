@@ -1,0 +1,29 @@
+# Virtual environment — large, platform-specific
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+
+# Git history
+.git/
+.gitignore
+
+# SQLite database files — these live in the Docker volume, not the image
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# Generated output files
+data/*.csv
+data/*.html
+
+# IDE and OS artifacts
+.vscode/
+.idea/
+.DS_Store

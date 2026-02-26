@@ -8,9 +8,6 @@ from src.core.config import DEMO_MODE
 from src.core.db import Base, engine
 from src.mcp_server import mcp
 
-# Create all ORM-managed tables (no-op if they already exist from database.py init)
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title="auto_pm_tracker API",
     description=(
@@ -44,10 +41,9 @@ def seed_demo():
             status_code=403,
             detail="Seed endpoint is disabled. Set DEMO_MODE=true to enable.",
         )
-    from src.database import initialize_db, seed_data
+    from src.demo_data import seed_demo_data
 
-    initialize_db()
-    seed_data()
+    seed_demo_data()
     return JSONResponse({"message": "Demo project seeded successfully."}, status_code=200)
 
 
