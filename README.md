@@ -3,7 +3,7 @@
 Full-stack engineering project management tool — CPM scheduling, EVM financials, and AI assistant
 integration via MCP. Built on FastAPI, Streamlit, SQLite WAL, and FastMCP.
 
-[![CI](https://github.com/roylatimer/auto_pm_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/roylatimer/auto_pm_tracker/actions/workflows/test.yml)
+[![CI](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml)
 
 ---
 
@@ -232,7 +232,7 @@ that surfaced during early Docker testing.
 ## Quick Start — Docker (Primary)
 
 ```bash
-git clone https://github.com/roylatimer/auto_pm_tracker.git
+git clone https://github.com/delubobo/auto_pm_tracker.git
 cd auto_pm_tracker
 docker compose up --build -d
 
