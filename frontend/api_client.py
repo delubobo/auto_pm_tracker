@@ -1,14 +1,22 @@
 """
 api_client.py — httpx wrapper for all FastAPI endpoints.
 
-Reads API_BASE_URL from environment (defaults to http://localhost:8001).
+Reads API_BASE_URL from (in priority order):
+  1. st.secrets["API_BASE_URL"]  — Streamlit Community Cloud secrets
+  2. os.environ["API_BASE_URL"]  — Docker Compose / local env var
+  3. "http://localhost:8001"     — local dev default
+
 All functions raise httpx.HTTPStatusError on non-2xx responses.
 """
 import os
 
 import httpx
 
-API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8001")
+try:
+    import streamlit as st
+    API_BASE_URL = st.secrets.get("API_BASE_URL", None) or os.getenv("API_BASE_URL", "http://localhost:8001")
+except Exception:
+    API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8001")
 
 
 def _get(path: str):
