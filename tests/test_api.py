@@ -71,7 +71,7 @@ def test_evm_after_seed():
     response = client.get("/api/financials/evm")
     assert response.status_code == 200
     data = response.json()
-    for key in ("BAC", "PV", "EV", "AC", "SPI", "CPI", "EAC", "VAC"):
+    for key in ("BAC", "PV", "EV", "AC", "SPI", "CPI", "EAC", "CV", "SV"):
         assert key in data
     assert data["BAC"] > 0
     assert data["health_status"] in ("GREEN", "YELLOW", "RED")
