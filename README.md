@@ -5,6 +5,8 @@ integration via MCP. Built on FastAPI, Streamlit, SQLite WAL, and FastMCP.
 
 [![CI](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml)
 
+**[Live Demo](https://autopmtracker.streamlit.app)** · **[API Docs](https://autopmtracker-production.up.railway.app/docs)** · **[MCP Endpoint](https://autopmtracker-production.up.railway.app/mcp)**
+
 ---
 
 ## Tech Stack
@@ -248,6 +250,8 @@ start http://localhost:8501         # Windows
 Startup sequence is enforced: backend runs Alembic migrations → passes `/health` check
 → Compose starts frontend.
 
+> **Live hosted version:** [autopmtracker.streamlit.app](https://autopmtracker.streamlit.app) (frontend) · [autopmtracker-production.up.railway.app/docs](https://autopmtracker-production.up.railway.app/docs) (API)
+
 ---
 
 ## Quick Start — Local Dev
@@ -285,7 +289,7 @@ curl -X POST http://localhost:8000/api/admin/seed-demo
 | `GET` | `/api/financials/evm` | BAC, PV, EV, AC, SPI, CPI, EAC, VAC, health narrative |
 | `POST` | `/api/admin/seed-demo` | Seed 18-task demo (`DEMO_MODE=true` required) |
 
-Interactive docs: `http://localhost:8001/docs`
+Interactive docs: [autopmtracker-production.up.railway.app/docs](https://autopmtracker-production.up.railway.app/docs)
 
 ---
 
