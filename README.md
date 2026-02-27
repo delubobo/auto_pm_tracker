@@ -13,7 +13,7 @@ integration via MCP. Built on FastAPI, Streamlit, SQLite WAL, and FastMCP.
 
 | Dashboard | Schedule (Gantt) |
 |---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Schedule](docs/screenshots/schedule.png) |
+| ![Dashboard](docs/screenshots/Dashboard.png) | ![Schedule](docs/screenshots/Schedule.png) |
 
 | Financials | AI Assistant |
 |---|---|
