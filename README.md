@@ -5,7 +5,19 @@ integration via MCP. Built on FastAPI, Streamlit, SQLite WAL, and FastMCP.
 
 [![CI](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml)
 
-**[Live Demo](https://autopmtracker.streamlit.app)** · **[API Docs](https://autopmtracker-production.up.railway.app/docs)** · **[MCP Endpoint](https://autopmtracker-production.up.railway.app/mcp)**
+**[Live Demo](https://autopmtracker.streamlit.app)** · **[API Docs](https://autopmtracker-production.up.railway.app/docs)**
+
+---
+
+## Screenshots
+
+| Dashboard | Schedule (Gantt) |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Schedule](docs/screenshots/schedule.png) |
+
+| Financials | AI Assistant |
+|---|---|
+| ![Financials](docs/screenshots/financials.png) | ![AI Assistant](docs/screenshots/ai_assistant.png) |
 
 ---
 
@@ -295,7 +307,7 @@ Interactive docs: [autopmtracker-production.up.railway.app/docs](https://autopmt
 
 ## MCP Tools
 
-Exposed at `/mcp` for use with Claude and any MCP-compatible client:
+Exposed at `https://autopmtracker-production.up.railway.app/mcp` for use with Claude and any MCP-compatible client (SSE/StreamableHTTP protocol — not browser-accessible):
 
 | Tool | Description |
 |---|---|
