@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
@@ -8,6 +9,25 @@ from src.core.config import DEMO_MODE
 from src.core.db import Base, engine
 from src.mcp_server import mcp
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Auto-seed demo data on startup when AUTO_SEED=true and DB is empty.
+    Designed for cloud deployments with ephemeral storage (no persistent volume needed).
+    """
+    if os.getenv("AUTO_SEED", "false").lower() == "true":
+        from src.core.db import SessionLocal
+        from src.models.task import Task
+        db = SessionLocal()
+        try:
+            if db.query(Task).count() == 0:
+                from src.demo_data import seed_demo_data
+                seed_demo_data()
+        finally:
+            db.close()
+    yield
+
+
 app = FastAPI(
     title="auto_pm_tracker API",
     description=(
@@ -16,6 +36,7 @@ app = FastAPI(
         "MCP server mounted at /mcp for AI assistant integration."
     ),
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 # --- Routers ---
