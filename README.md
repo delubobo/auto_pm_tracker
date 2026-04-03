@@ -1,7 +1,6 @@
 # auto_pm_tracker
 
-Full-stack engineering project management tool — CPM scheduling, EVM financials, and AI assistant
-integration via MCP. Built on FastAPI, Streamlit, SQLite WAL, and FastMCP.
+Designed to demonstrate a simplified scalable project maangement management tool for complex construction expansions. It directly integrates CPM scheduling, EVM financials, and an AI assistant to keep massive builds on track and on budget. The system is driven by an integrated architecture of FastAPI, Streamlit, SQLite WAL, and FastMCP.
 
 [![CI](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml/badge.svg)](https://github.com/delubobo/auto_pm_tracker/actions/workflows/test.yml)
 
